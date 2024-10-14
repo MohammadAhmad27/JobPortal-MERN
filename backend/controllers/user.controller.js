@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export const register = async (req, res) => {
     try {
@@ -39,8 +40,8 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const { fullname, email, password } = req.body;
-        if (!fullname || !email || !password) {
+        const { email, password, role } = req.body;
+        if (!email || !password) {
             return res.status(400).json({
                 message: "Soemthing is missing!",
                 success: false
@@ -105,33 +106,40 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
-        if (!fullname || !email || !phoneNumber || !bio || !skills) {
-            return res.status(400).json({
-                message: "Soemthing is missing!",
-                success: false
-            });
+        const file = req.file; // Handling file logic (if needed)
+
+        let skillsArray;
+        if (skills) {
+            skillsArray = skills.split(',');
         }
-        const file = req.file;
-        //cloudinary
-        const skillsArray = skills.split(',');
-        const userId = req.id; // middleware
-        let user = await User.findById(userId);
+
+        const userId = req.id; // middleware to extract user ID
+
+        // Update the user's data
+        let user = await User.findByIdAndUpdate(
+            userId, // The filter (user ID)
+            {
+                fullname,
+                email,
+                phoneNumber,
+                profile: {
+                    bio,
+                    skills: skillsArray
+                }
+            },
+            { new: true } // This option returns the updated document
+        );
+
+        // If user not found
         if (!user) {
             return res.status(400).json({
                 message: "User not found!",
                 success: false
             });
         }
-        //updating data
-        user.fullname = fullname;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.profile.bio = bio;
-        user.profile.skills = skillsArray;
-        // resume comes later
 
-        await user.save();
-
+        // Remove unnecessary save call, as `findByIdAndUpdate` already saves the changes
+        // Returning updated user details
         user = {
             _id: user._id,
             fullname: user.fullname,
@@ -139,13 +147,18 @@ export const updateProfile = async (req, res) => {
             phoneNumber: user.phoneNumber,
             role: user.role,
             profile: user.profile
-        }
+        };
+
         return res.status(200).json({
             message: "Profile updated successfully!",
             success: true,
             user
-        })
+        });
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        });
     }
 };

@@ -106,18 +106,17 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
-        const file = req.file; // Handling file logic (if needed)
+        const file = req.file;
 
         let skillsArray;
         if (skills) {
             skillsArray = skills.split(',');
         }
 
-        const userId = req.id; // middleware to extract user ID
+        const userId = req.id;
 
-        // Update the user's data
         let user = await User.findByIdAndUpdate(
-            userId, // The filter (user ID)
+            userId,
             {
                 fullname,
                 email,
@@ -127,10 +126,10 @@ export const updateProfile = async (req, res) => {
                     skills: skillsArray
                 }
             },
-            { new: true } // This option returns the updated document
+            { new: true }
         );
 
-        // If user not found
+
         if (!user) {
             return res.status(400).json({
                 message: "User not found!",
@@ -138,8 +137,6 @@ export const updateProfile = async (req, res) => {
             });
         }
 
-        // Remove unnecessary save call, as `findByIdAndUpdate` already saves the changes
-        // Returning updated user details
         user = {
             _id: user._id,
             fullname: user.fullname,

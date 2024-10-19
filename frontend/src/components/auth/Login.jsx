@@ -46,8 +46,8 @@ export default function Login() {
                             placeholder='Enter password'
                         />
                     </div>
-                    <div className='flex items-center justify-between'>
-                        <RadioGroup className='flex items-center gap-4 my-5'>
+                    <div className='flex items-center'>
+                        <RadioGroup className='flex items-center flex-wrap gap-4 my-4'>
                             <div className="flex items-center space-x-2">
                                 <Input
                                     type='radio'
@@ -73,7 +73,7 @@ export default function Login() {
                         </RadioGroup>
                     </div>
                     <Button
-                        className='w-full my-4'
+                        className='w-full mb-2'
                         type='submit'>
                         Submit
                     </Button>

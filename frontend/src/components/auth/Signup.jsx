@@ -67,8 +67,8 @@ export default function Signup() {
                             placeholder='Enter password'
                         />
                     </div>
-                    <div className='flex items-center justify-between'>
-                        <RadioGroup className='flex items-center gap-4 my-5'>
+                    <div className='flex items-center'>
+                        <RadioGroup className='flex items-center flex-wrap gap-4 my-4'>
                             <div className="flex items-center space-x-2">
                                 <Input
                                     type='radio'
@@ -92,18 +92,19 @@ export default function Signup() {
                                 <Label htmlFor="r2">Recruiter</Label>
                             </div>
                         </RadioGroup>
-                        <div className="flex items-center gap-2">
-                            <Label>Profile</Label>
-                            <Input
-                                accept='image/*'
-                                type='file'
-                                className='cursor-pointer'
-                                onChange={changeFileHandler}
-                            />
-                        </div>
+
+                    </div>
+                    <div className="flex items-center flex-wrap gap-2">
+                        <Label>Profile</Label>
+                        <Input
+                            accept='image/*'
+                            type='file'
+                            className='cursor-pointer mb-4'
+                            onChange={changeFileHandler}
+                        />
                     </div>
                     <Button
-                        className='w-full my-4'
+                        className='w-full mb-2'
                         type='submit'>
                         Submit
                     </Button>

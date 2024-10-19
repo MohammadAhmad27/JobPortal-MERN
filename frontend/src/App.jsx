@@ -1,9 +1,10 @@
 import React from "react"
+import Navbar from "./components/ui/shared/Navbar"
 function App() {
 
   return (
     <>
-      <h1 className='text-red-700 text-5xl text-center'>Lets built Job Portal</h1>
+      <Navbar />
     </>
   )
 }

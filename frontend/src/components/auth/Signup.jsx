@@ -9,9 +9,15 @@ import { useState } from 'react'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
+
 
 export default function Signup() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { loading } = useSelector(store => store.auth);
     const [input, setInput] = useState({
         fullname: "",
         email: "",
@@ -39,6 +45,7 @@ export default function Signup() {
         }
 
         try {
+            dispatch(setLoading(true));
             const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -53,6 +60,8 @@ export default function Signup() {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+        } finally {
+            dispatch(setLoading(false));
         }
     };
     return (
@@ -103,6 +112,7 @@ export default function Signup() {
                                     type='radio'
                                     name='role'
                                     value='student'
+                                    id='r1'
                                     checked={input.role === 'student'}
                                     onChange={changeEventHandler}
                                     className='cursor-pointer'
@@ -114,6 +124,7 @@ export default function Signup() {
                                     type='radio'
                                     name='role'
                                     value='recruiter'
+                                    id='r2'
                                     checked={input.role === 'recruiter'}
                                     onChange={changeEventHandler}
                                     className='cursor-pointer'
@@ -132,12 +143,22 @@ export default function Signup() {
                             onChange={changeFileHandler}
                         />
                     </div>
-                    <Button
-                        className='w-full mb-2'
-                        type='submit'>
-                        Submit
-                    </Button>
-                    <span className='text-sm'>Already have an account? <Link to={'/login'} className='text-blue-600'>Login</Link></span>
+                    <div className="flex flex-col">
+                        {
+                            loading ? (
+                                <Button className='w-full mb-2'><Loader2 className='animate-spin size-4 mr-2' />Please wait!</Button>
+                            ) : (
+
+                                <Button
+                                    className='w-full mb-2'
+                                    type='submit'>
+                                    Signup
+                                </Button>
+                            )
+                        }
+                        <span className='text-sm'>Already have an account? <Link to={'/login'}
+                            className='text-blue-600'>Login</Link></span>
+                    </div>
                 </form>
             </div>
         </div>

@@ -9,9 +9,14 @@ import { useState } from 'react'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 export default function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { loading } = useSelector(store => store.auth);
     const [input, setInput] = useState({
         email: "",
         password: "",
@@ -23,6 +28,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            dispatch(setLoading(true));
             const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,7 +43,10 @@ export default function Login() {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+        } finally {
+            dispatch(setLoading(false));
         }
+
     };
     return (
         <div>
@@ -71,6 +80,7 @@ export default function Login() {
                                     type='radio'
                                     name='role'
                                     value='student'
+                                    id='r1'
                                     checked={input.role === 'student'}
                                     onChange={changeEventHandler}
                                     className='cursor-pointer'
@@ -82,6 +92,7 @@ export default function Login() {
                                     type='radio'
                                     name='role'
                                     value='recruiter'
+                                    id='r2'
                                     checked={input.role === 'recruiter'}
                                     onChange={changeEventHandler}
                                     className='cursor-pointer'
@@ -90,12 +101,20 @@ export default function Login() {
                             </div>
                         </RadioGroup>
                     </div>
-                    <Button
-                        className='w-full mb-2'
-                        type='submit'>
-                        Submit
-                    </Button>
-                    <span className='text-sm'>Don't have an account? <Link to={'/signup'} className='text-blue-600'>Signup</Link></span>
+                    <div className="flex flex-col">
+                        {
+                            loading ? (
+                                <Button className='w-full mb-2'><Loader2 className='animate-spin size-4 mr-2' />Please wait!</Button>
+                            ) : (
+                                <Button
+                                    className='w-full mb-2'
+                                    type='submit'>
+                                    Login
+                                </Button>
+                            )
+                        }
+                        <span className='text-sm'>Don't have an account? <Link to={'/signup'} className='text-blue-600'>Signup</Link></span>
+                    </div>
                 </form>
             </div>
         </div>

@@ -12,7 +12,7 @@ export default function LatestJobCards() {
                 <h2 className='font-bold text-lg my-2'>
                     Job Title
                 </h2>
-                <p className='text-sm text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elitjnvknevevvenveveveivevevevevvvverv.</p>
+                <p className='text-sm text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
             <div className='flex items-center gap-2 mt-4'>
                 <Badge className={`text-blue-700 font-bold`} variant='ghost'>12 Positions</Badge>

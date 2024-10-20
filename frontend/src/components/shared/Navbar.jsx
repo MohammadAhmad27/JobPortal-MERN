@@ -17,9 +17,9 @@ export default function Navbar() {
                 </div>
                 <div className='flex items-center gap-5'>
                     <ul className='flex font-medium items-center gap-5'>
-                        <Link to={'/'}> <li>Home</li></Link>
-                        <Link to={'/jobs'}><li>Jobs</li></Link>
-                        <Link to={'/browse'}><li>Browse</li></Link>
+                        <li> <Link to={'/'}>Home</Link></li>
+                        <li><Link to={'/jobs'}>Jobs</Link></li>
+                        <li><Link to={'/browse'}>Browse</Link></li>
                     </ul>
 
                     {

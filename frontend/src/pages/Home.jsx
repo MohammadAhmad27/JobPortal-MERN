@@ -6,12 +6,12 @@ import LatestJobs from '../components/home/LatestJobs'
 import Footer from '../components/shared/Footer'
 export default function Home() {
     return (
-        <div>
+        <>
             <Navbar />
             <HeroSection />
             <CategoryCarousel />
             <LatestJobs />
             <Footer />
-        </div>
+        </>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { LogOut, User2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -17,9 +17,9 @@ export default function Navbar() {
                 </div>
                 <div className='flex items-center gap-5'>
                     <ul className='flex font-medium items-center gap-5'>
-                        <li>Home</li>
-                        <li>Jobs</li>
-                        <li>Browse</li>
+                        <Link to={'/'}> <li>Home</li></Link>
+                        <Link to={'/jobs'}><li>Jobs</li></Link>
+                        <Link to={'/browse'}><li>Browse</li></Link>
                     </ul>
 
                     {

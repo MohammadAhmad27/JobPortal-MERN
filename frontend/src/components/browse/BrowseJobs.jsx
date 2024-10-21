@@ -1,5 +1,5 @@
 import React from 'react'
-import JobCard from '../jobs/JobCard';
+import JobCard from '../cards/JobCard';
 
 export default function BrowseJobs() {
     const randomJobs = [1, 2, 3];

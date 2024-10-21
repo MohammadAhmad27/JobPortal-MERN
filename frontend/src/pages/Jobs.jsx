@@ -1,5 +1,5 @@
 import FilterCard from '@/components/jobs/FilterCard'
-import JobCard from '@/components/jobs/JobCard'
+import JobCard from '@/components/cards/JobCard'
 import Navbar from '@/components/shared/Navbar'
 import React from 'react'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
@@ -6,12 +6,14 @@ import { Contact, Mail, Pen } from 'lucide-react'
 import { Badge } from '../ui/badge'
 import { Label } from '../ui/label'
 import AppliedJobTable from './AppliedJobTable'
+import UpdateProfileDialog from '../dialogs/UpdateProfileDialog'
 
 export default function Profile() {
     const skills = [
         'React', 'Next.js', 'Express.js', 'MongoDB'
     ];
     const isResume = true;
+    const [open, setOpen] = useState(false);
     return (
         <>
             <Navbar />
@@ -26,7 +28,7 @@ export default function Profile() {
                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
                         </div>
                     </div>
-                    <Button variant='outline'><Pen /></Button>
+                    <Button variant='outline' onClick={() => setOpen(true)}><Pen /></Button>
                 </div>
                 <div className='flex flex-col gap-2 mt-5'>
                     <div className='flex items-center gap-3'>
@@ -61,10 +63,11 @@ export default function Profile() {
                     }
                 </div>
             </div>
-            <div className="max-w-4xl mx-auto bg-white rounded-2xl mt-5">
+            <div className="max-w-4xl mx-auto bg-white rounded-2xl my-5">
                 <h2 className='p-4 font-bold text-xl'>Applied Jobs</h2>
                 <AppliedJobTable />
             </div>
+            <UpdateProfileDialog open={open} setOpen={setOpen} />
         </>
     )
 }

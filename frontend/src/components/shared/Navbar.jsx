@@ -38,7 +38,7 @@ export default function Navbar() {
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent className='w-80'>
-                                    <div className="flex space-y-2 gap-4">
+                                    <div className="flex items-center space-y-2 gap-4">
                                         <Avatar className='cursor-pointer'>
                                             <AvatarImage src="https://github.com/shadcn.png" />
                                         </Avatar>

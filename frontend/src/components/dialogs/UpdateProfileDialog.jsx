@@ -8,11 +8,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 import { USER_API_END_POINT } from '@/utils/constant'
 import axios from 'axios'
-import { setUser } from '@/redux/authSlice'
+import { setUser, setLoading } from '@/redux/authSlice'
 
 export default function UpdateProfileDialog({ open, setOpen }) {
-    const [loading, setLoading] = useState(false);
-    const { user } = useSelector(store => store.auth);
+    const { loading, user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const [input, setInput] = useState({
         fullname: user?.fullname || '',
@@ -34,7 +33,6 @@ export default function UpdateProfileDialog({ open, setOpen }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         const formData = new FormData();
         formData.append('fullname', input.fullname);
         formData.append('email', input.email);
@@ -45,6 +43,7 @@ export default function UpdateProfileDialog({ open, setOpen }) {
             formData.append('file', input.file);
         }
         try {
+            dispatch(setLoading(true));
             const res = await axios.put(`${USER_API_END_POINT}/profile/update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -60,7 +59,7 @@ export default function UpdateProfileDialog({ open, setOpen }) {
             console.log(error);
             toast.error(error.response.data.message);
         } finally {
-            setLoading(false);
+            dispatch(setLoading(false));
             setOpen(false);
         }
     };
@@ -102,7 +101,7 @@ export default function UpdateProfileDialog({ open, setOpen }) {
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor='number'>Phone Number:</Label>
+                                <Label htmlFor='number'>Number:</Label>
                                 <Input
                                     id='number'
                                     name='phoneNumber'
@@ -135,15 +134,21 @@ export default function UpdateProfileDialog({ open, setOpen }) {
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="file" >Resume</Label>
-                                <Input
-                                    id="file"
-                                    name="file"
-                                    type="file"
-
-                                    onChange={handleFileChange}
-                                    className="col-span-3"
-                                />
+                                <Label htmlFor="file">Resume</Label>
+                                <div className="col-span-3">
+                                    {input.file && typeof input.file === 'string' && (
+                                        <div className="mb-2">
+                                            <span className="text-sm">Current File: {user?.profile?.resumeOriginalName}</span>
+                                        </div>
+                                    )}
+                                    <Input
+                                        id="file"
+                                        name="file"
+                                        type="file"
+                                        accept=".pdf,.PDF,application/pdf,application/x-pdf"
+                                        onChange={handleFileChange}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <DialogFooter>

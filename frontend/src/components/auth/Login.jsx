@@ -53,7 +53,7 @@ export default function Login() {
         <div>
             <Navbar />
             <div className="flex items-center justify-center max-w-7xl mx-auto">
-                <form onSubmit={handleSubmit}
+                <div onSubmit={handleSubmit}
                     className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
                     <h1 className='font-bold text-xl mb-5'>Login</h1>
                     <div className='my-2'>
@@ -68,6 +68,7 @@ export default function Login() {
                         <Label>Password</Label>
                         <Input
                             type='password'
+                            // autoComplete='new-password'
                             value={input.password}
                             name='password'
                             onChange={changeEventHandler}
@@ -109,14 +110,14 @@ export default function Login() {
                             ) : (
                                 <Button
                                     className='w-full mb-2'
-                                    type='submit'>
+                                    onClick={handleSubmit}>
                                     Login
                                 </Button>
                             )
                         }
                         <span className='text-sm'>Don't have an account? <Link to={'/signup'} className='text-blue-600'>Signup</Link></span>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     )

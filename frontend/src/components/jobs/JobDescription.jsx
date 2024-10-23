@@ -1,9 +1,35 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
+import { useParams } from 'react-router-dom';
+import useGetJobById from '@/hooks/useGetJobById';
+import { JOB_API_END_POINT } from '@/utils/constant';
+import axios from 'axios';
+import { setSingleJob } from '@/redux/jobSlice';
+
 
 export default function JobDescription() {
     const isApplied = false;
+    const params = useParams();
+    const jobId = params.id;
+    
+    useEffect(() => {
+        const fetchjobById = async () => {
+            try {
+                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
+                    withCredentials: true
+                });
+                if (res.data.success) {
+                    dispatch(setSingleJob(res.data.job));
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchjobById();
+    }, [])
+
+
     return (
         <div className='max-w-6xl mx-auto my-10'>
             <div className="flex items-center justify-between">

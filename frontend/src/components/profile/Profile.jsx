@@ -54,7 +54,7 @@ export default function Profile() {
                 <div className="grid max-w-sm w-full items-center gap-2 mt-5">
                     <Label className='text-sm font-bold'>Resume</Label>
                     {
-                        isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                        isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>Upload Resume</span>
                     }
                 </div>
             </div>

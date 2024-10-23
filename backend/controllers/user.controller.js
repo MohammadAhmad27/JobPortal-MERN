@@ -13,6 +13,11 @@ export const register = async (req, res) => {
                 success: false
             });
         }
+        //cloudinary
+        const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({
@@ -27,7 +32,10 @@ export const register = async (req, res) => {
             email,
             phoneNumber,
             password: hashedPassword,
-            role
+            role,
+            profile: {
+                profilePhoto: cloudResponse.secure_url
+            }
         })
 
         return res.status(201).json({
@@ -110,9 +118,13 @@ export const updateProfile = async (req, res) => {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
 
         const file = req.file;
-        // cloudinary ayega idhar
         const fileUri = getDataUri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
+        // const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+        //     resource_type: 'raw', // Use 'raw' for non-image uploads
+        //     format: 'pdf' // Explicitly state the format
+        // });
 
 
 

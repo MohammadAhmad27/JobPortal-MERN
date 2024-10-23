@@ -145,7 +145,7 @@ export default function UpdateProfileDialog({ open, setOpen }) {
                                         id="file"
                                         name="file"
                                         type="file"
-                                        accept=".pdf,.PDF,application/pdf,application/x-pdf"
+                                        accept=".pdf,.PDF,application/pdf,.doc,.docx,image/*"
                                         onChange={handleFileChange}
                                     />
                                 </div>

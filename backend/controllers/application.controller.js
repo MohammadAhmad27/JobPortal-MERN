@@ -45,52 +45,48 @@ export const applyJob = async (req, res) => {
         console.log(error);
     }
 };
-
 export const getAppliedJobs = async (req, res) => {
     try {
         const userId = req.id;
         const application = await Application.find({ applicant: userId }).sort({ createdAt: -1 }).populate({
-            path: "job",
+            path: 'job',
             options: { sort: { createdAt: -1 } },
             populate: {
-                path: "company",
-                options: { sort: { createdAt: -1 } }
+                path: 'company',
+                options: { sort: { createdAt: -1 } },
             }
         });
         if (!application) {
             return res.status(404).json({
-                message: "No applications found!",
+                message: "No Applications",
                 success: false
-            });
-        }
+            })
+        };
         return res.status(200).json({
-            message: "Applications fetched successfully!",
-            success: true,
-            application
-        });
+            application,
+            success: true
+        })
     } catch (error) {
         console.log(error);
     }
-};
-
+}
 //admin will see how many applicants have applied on particular job
-
 export const getApplicants = async (req, res) => {
     try {
         const jobId = req.params.id;
         const job = await Job.findById(jobId).populate({
-            path: "applications",
+            path: 'applications',
             options: { sort: { createdAt: -1 } },
             populate: {
-                path: "applicant "
+                path: 'applicant'
             }
         });
         if (!job) {
             return res.status(404).json({
-                message: "Job not found!",
+                message: 'Job not found.',
                 success: false
-            });
-        }
+            })
+        };
         return res.status(200).json({
             message: "jobs fetched successfully!",
             success: true,
@@ -99,37 +95,37 @@ export const getApplicants = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-};
-
-
+}
 export const updateStatus = async (req, res) => {
     try {
-        const applicationId = req.params.id;
         const { status } = req.body;
+        const applicationId = req.params.id;
         if (!status) {
             return res.status(400).json({
-                message: "Status is required!",
+                message: 'status is required',
                 success: false
-            });
-        }
-        // find the application by application id
+            })
+        };
+
+        // find the application by applicantion id
         const application = await Application.findOne({ _id: applicationId });
         if (!application) {
             return res.status(404).json({
-                message: "Application not found!",
+                message: "Application not found.",
                 success: false
-            });
-        }
-        // update status
+            })
+        };
+
+        // update the status
         application.status = status.toLowerCase();
         await application.save();
 
         return res.status(200).json({
-            message: "Status updated successfully!",
-            success: true,
-            application
+            message: "Status updated successfully.",
+            success: true
         });
+
     } catch (error) {
         console.log(error);
     }
-};
+}

@@ -6,60 +6,57 @@ import { Input } from '../ui/input'
 import { ArrowBigLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
-import { setSingleCompany } from '@/redux/companySlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
+import useGetCompanyById from '@/hooks/useGetCompanyById'
 
 
 export default function CompanySetup() {
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
     const params = useParams();
-    const companyId = params.id;
-    const navigate = useNavigate();
-    const { singleCompany } = useSelector(store => store.company);
-
+    useGetCompanyById(params.id);
     const [input, setInput] = useState({
-        name: '',
-        description: '',
-        website: '',
-        location: '',
+        name: "",
+        description: "",
+        website: "",
+        location: "",
         file: null
     });
+    const { singleCompany } = useSelector(store => store.company);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
-    };
+    }
 
-    const handleFileChange = (e) => {
+    const changeFileHandler = (e) => {
         const file = e.target.files?.[0];
         setInput({ ...input, file });
-    };
+    }
 
-    const handleSubmit = async (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('name', input.name);
-        formData.append('description', input.description);
-        formData.append('website', input.website);
-        formData.append('location', input.location);
+        formData.append("name", input.name);
+        formData.append("description", input.description);
+        formData.append("website", input.website);
+        formData.append("location", input.location);
         if (input.file) {
-            formData.append('file', input.file);
+            formData.append("file", input.file);
         }
         try {
             setLoading(true);
-            const res = await axios.put(`${COMPANY_API_END_POINT}/update/${companyId}`, { formData }, {
+            const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data'
                 },
                 withCredentials: true
             });
             if (res.data.success) {
-                dispatch(setSingleCompany(res.data.company));
                 toast.success(res.data.message);
-                navigate('/admin/companies');
+                navigate("/admin/companies");
             }
         } catch (error) {
             console.log(error);
@@ -67,29 +64,25 @@ export default function CompanySetup() {
         } finally {
             setLoading(false);
         }
-    };
+    }
 
     useEffect(() => {
         setInput({
-            name: singleCompany?.name || '',
-            description: singleCompany?.description || '',
-            website: singleCompany?.website || '',
-            location: singleCompany?.location || '',
-            file: singleCompany?.file || null
-        });
-
+            name: singleCompany.name || "",
+            description: singleCompany.description || "",
+            website: singleCompany.website || "",
+            location: singleCompany.location || "",
+            file: singleCompany.file || null
+        })
     }, [singleCompany]);
 
     return (
-        <>
+        <div>
             <Navbar />
-            <div className='max-w-xl mx-auto  my-10'>
-                <form onSubmit={handleSubmit}>
-                    <div className="flex items-center gap-5 p-8">
-                        <Button
-                            variant='outline'
-                            onClick={() => navigate('/admin/companies')}
-                            className='flex items-center gap-2 text-gray-500 font-semibold'>
+            <div className='max-w-xl mx-auto my-10'>
+                <form onSubmit={submitHandler}>
+                    <div className='flex items-center gap-5 p-8'>
+                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
                             <ArrowBigLeft />
                             <span>Back</span>
                         </Button>
@@ -99,68 +92,54 @@ export default function CompanySetup() {
                         <div>
                             <Label>Company Name</Label>
                             <Input
-                                className='my-2'
-                                type='text'
-                                name='name'
+                                type="text"
+                                name="name"
                                 value={input.name}
-                                onChange={handleChange}
+                                onChange={changeEventHandler}
                             />
                         </div>
                         <div>
                             <Label>Description</Label>
                             <Input
-                                className='my-2'
-                                type='text'
-                                name='description'
+                                type="text"
+                                name="description"
                                 value={input.description}
-                                onChange={handleChange}
+                                onChange={changeEventHandler}
                             />
                         </div>
                         <div>
                             <Label>Website</Label>
                             <Input
-                                className='my-2'
-                                type='text'
-                                name='website'
+                                type="text"
+                                name="website"
                                 value={input.website}
-                                onChange={handleChange}
+                                onChange={changeEventHandler}
                             />
                         </div>
                         <div>
                             <Label>Location</Label>
                             <Input
-                                className='my-2'
-                                type='text'
-                                name='location'
+                                type="text"
+                                name="location"
                                 value={input.location}
-                                onChange={handleChange}
+                                onChange={changeEventHandler}
                             />
                         </div>
                         <div>
                             <Label>Logo</Label>
                             <Input
-                                className='my-2'
-                                type='file'
-                                name='file'
-                                accept='image/*'
-                                value={input.file}
-                                onChange={handleFileChange}
+                                type="file"
+                                accept="image/*"
+                                onChange={changeFileHandler}
                             />
                         </div>
                     </div>
                     {
-                        loading ? (
-                            <Button className='w-full mb-2'><Loader2 className='animate-spin size-4 mr-2' />Please wait!</Button>
-                        ) : (
-                            <Button
-                                className='w-full mb-2'
-                                type='submit'>
-                                Update
-                            </Button>
-                        )
+                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
                     }
                 </form>
             </div>
-        </>
+
+        </div>
     )
 }

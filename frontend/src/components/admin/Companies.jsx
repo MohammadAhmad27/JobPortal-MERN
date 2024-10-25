@@ -14,7 +14,7 @@ export default function Companies() {
                 <div className="flex items-center justify-between my-10">
                     <Input
                         className='w-fit'
-                        placeHolder='Filter by name'
+                        placeholder='Filter by name'
                     />
                     <Button onClick={() => navigate('/admin/companies/create')}>New Company</Button>
                 </div>

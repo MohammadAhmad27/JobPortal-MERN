@@ -24,7 +24,7 @@ export default function JobCard({ job }) {
       <div className="flex items-center gap-2 my-2">
         <Button variant='outline' size='icon' className='p-6' >
           <Avatar>
-            <AvatarImage src='/logo.jpg' />
+            <AvatarImage src='/logo2.jpeg' />
           </Avatar>
         </Button>
         <div>

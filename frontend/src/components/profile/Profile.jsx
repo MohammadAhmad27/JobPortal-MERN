@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Contact, Mail, Pen } from 'lucide-react'
 import { Badge } from '../ui/badge'
 import { Label } from '../ui/label'
-import AppliedJobTable from './AppliedJobTable'
+import AppliedJobTable from '../tables/AppliedJobTable'
 import UpdateProfileDialog from '../dialogs/UpdateProfileDialog'
 import { useSelector } from 'react-redux'
 

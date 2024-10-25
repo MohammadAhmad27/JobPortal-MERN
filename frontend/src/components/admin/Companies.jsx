@@ -4,8 +4,10 @@ import Navbar from '../shared/Navbar'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { useNavigate } from 'react-router-dom'
+import useGetAllCompanies from '@/hooks/useGetAllCompanies'
 
 export default function Companies() {
+    useGetAllCompanies();
     const navigate = useNavigate();
     return (
         <>

@@ -3,8 +3,13 @@ import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow, Table
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
+import { useSelector } from 'react-redux'
+import { Button } from '../ui/button'
+import { useNavigate } from 'react-router-dom'
 
 export default function CompaniesTable() {
+    const { allCompanies } = useSelector(store => store.company);
+    const navigate = useNavigate();
     return (
         <>
             <Table>
@@ -20,28 +25,46 @@ export default function CompaniesTable() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>
-                            <Avatar>
-                                <AvatarImage src='/logo2.jpeg' />
-                            </Avatar>
-                        </TableCell>
-                        <TableCell>Company Name</TableCell>
-                        <TableCell>{new Date().toLocaleString()}</TableCell>
-                        <TableCell className='text-right cursor-pointer'>
-                            <Popover>
-                                <PopoverTrigger>
-                                    <MoreHorizontal />
-                                </PopoverTrigger>
-                                <PopoverContent className='w-32'>
-                                    <div className='flex items-center w-fit gap-2'>
-                                        <Edit2 className='w-4' />
-                                        <span>Edit</span>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
-                        </TableCell>
-                    </TableRow>
+                    {
+                        !allCompanies.length ? (
+                            <span className='text-center text-sm text-gray-500'>You haven't registered any company!</span>
+                        ) : (
+                            <>
+                                {
+                                    allCompanies?.map((company) => (
+                                        <TableRow key={company._id}>
+                                            <TableCell>
+                                                <Avatar>
+                                                    <AvatarImage src={company?.logo} />
+                                                </Avatar>
+                                            </TableCell>
+                                            <TableCell>{company?.name}</TableCell>
+                                            <TableCell>{company?.createdAt.split('T')[0]}</TableCell>
+                                            <TableCell className='text-right cursor-pointer'>
+                                                <Popover>
+                                                    <PopoverTrigger>
+                                                        <MoreHorizontal />
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className='w-32 cursor-pointer'>
+                                                        <div
+                                                            variant='outline'
+                                                            onClick={() => navigate(`/admin/companies/${company._id}`)}
+                                                            className='flex items-center w-fit gap-2'>
+                                                            <Edit2 className='w-4' />
+                                                            <span>Edit</span>
+                                                        </div>
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </TableCell>
+                                        </TableRow>
+
+                                    ))
+                                }
+
+                            </>
+                        )
+                    }
+
                 </TableBody>
             </Table>
         </>

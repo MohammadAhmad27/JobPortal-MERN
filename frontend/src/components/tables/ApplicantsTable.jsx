@@ -60,13 +60,13 @@ export default function ApplicantsTable() {
                                         <PopoverTrigger>
                                             <MoreHorizontal />
                                         </PopoverTrigger>
-                                        <PopoverContent className="max-w-36">
+                                        <PopoverContent className="max-w-28">
                                             {
                                                 shortListingStatus.map((status, index) => {
                                                     return (
                                                         <div
                                                             onClick={() => statusHandler(status, item?._id)} key={index}
-                                                            className='flex w-fit items-center my-2 cursor-pointer'>
+                                                            className='flex flex-col w-fit items-center my-2 border border-gray-400 p-1 rounded-xl cursor-pointer'>
                                                             <span>{status}</span>
                                                         </div>
                                                     )

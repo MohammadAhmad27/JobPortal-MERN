@@ -53,12 +53,7 @@ export default function AdminJobsTable() {
                                                     <PopoverTrigger>
                                                         <MoreHorizontal />
                                                     </PopoverTrigger>
-                                                    <PopoverContent className='max-w-36 cursor-pointer space-y-1'>
-                                                        <div
-                                                            className='flex items-center w-full gap-1'>
-                                                            <Edit2 className='w-4' />
-                                                            <span>Edit</span>
-                                                        </div>
+                                                    <PopoverContent className='max-w-32 cursor-pointer'>
                                                         <div
                                                             onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
                                                             className='flex items-center w-full gap-1'>

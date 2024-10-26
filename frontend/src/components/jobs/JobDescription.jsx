@@ -10,30 +10,25 @@ import { toast } from 'sonner';
 import Navbar from '../shared/Navbar';
 
 const JobDescription = () => {
-    const { singleJob } = useSelector(store => store.job); // Get singleJob from Redux
-    const { user } = useSelector(store => store.auth); // Get user from Redux
-
-    // Check if the user has already applied for the job
+    const { singleJob } = useSelector(store => store.job);
+    const { user } = useSelector(store => store.auth);
     const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
-    const [isApplied, setIsApplied] = useState(isInitiallyApplied); // Local state for button status
+    const [isApplied, setIsApplied] = useState(isInitiallyApplied);
 
     const params = useParams();
     const jobId = params.id;
     const dispatch = useDispatch();
 
-    // Function to apply for a job
     const applyJobHandler = async () => {
         try {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
 
             if (res.data.success) {
-                setIsApplied(true); // Update local state when the user successfully applies
-                const updatedSingleJob = {
-                    ...singleJob,
-                    applications: [...singleJob.applications, { applicant: user?._id }]
-                }
-                dispatch(setSingleJob(updatedSingleJob)); // Update Redux state for real-time UI update
+                setIsApplied(true); // Update the local state
+                const updatedSingleJob = { ...singleJob, applications: [...singleJob.applications, { applicant: user?._id }] }
+                dispatch(setSingleJob(updatedSingleJob)); // helps us to real time UI update
                 toast.success(res.data.message);
+
             }
         } catch (error) {
             console.log(error);
@@ -41,23 +36,20 @@ const JobDescription = () => {
         }
     }
 
-    // Fetch the single job details on component load
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
                 if (res.data.success) {
-                    dispatch(setSingleJob(res.data.job)); // Update the Redux state with the fetched job data
-
-                    // Update isApplied state based on fetched job applications
-                    setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id));
+                    dispatch(setSingleJob(res.data.job));
+                    setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id)) // Ensure the state is in sync with fetched data
                 }
             } catch (error) {
                 console.log(error);
             }
         }
         fetchSingleJob();
-    }, [jobId, dispatch, user?._id]); // Dependency array includes jobId, dispatch, and user ID
+    }, [jobId, dispatch, user?._id]);
 
     return (
         <>
@@ -72,13 +64,11 @@ const JobDescription = () => {
                             <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{singleJob?.salary}</Badge>
                         </div>
                     </div>
-
-                    {/* Apply Button */}
                     <Button
-                        onClick={isApplied ? null : applyJobHandler} // Disable onClick if already applied
-                        disabled={isApplied} // Button is disabled if the user has applied
+                        onClick={isApplied ? null : applyJobHandler}
+                        disabled={isApplied}
                         className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#7209b7] hover:bg-[#5f32ad]'}`}>
-                        {isApplied ? 'Already Applied' : 'Apply Now'} {/* Button text based on isApplied */}
+                        {isApplied ? 'Already Applied' : 'Apply Now'}
                     </Button>
                 </div>
 
@@ -88,9 +78,9 @@ const JobDescription = () => {
                     <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
                     <h1 className='font-bold my-1'>Description: <span className='pl-4 font-normal text-gray-800'>{singleJob?.description}</span></h1>
                     <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-800'>{singleJob?.experienceLevel} years</span></h1>
-                    <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}</span></h1>
+                    <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}LPA</span></h1>
                     <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
-                    <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt?.split("T")[0]}</span></h1>
+                    <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
                 </div>
             </div>
         </>

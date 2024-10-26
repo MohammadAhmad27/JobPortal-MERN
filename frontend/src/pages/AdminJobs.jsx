@@ -25,7 +25,7 @@ export default function AdminJobs() {
         <div className="flex items-center justify-between my-10">
           <Input
             className='w-fit'
-            placeholder='Filter by title'
+            placeholder='Filter by name & role'
             onChange={(e) => setInput(e.target.value)}
           />
           <Button onClick={() => navigate('/admin/jobs/create')}>New Job</Button>

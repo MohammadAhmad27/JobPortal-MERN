@@ -15,7 +15,7 @@ export const jobPost = async (req, res) => {
             title,
             description,
             requirements: requirements.split(","),
-            salary: Number(salary),
+            salary,
             location,
             jobType,
             experienceLevel,

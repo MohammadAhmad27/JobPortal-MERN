@@ -1,6 +1,6 @@
 import React from 'react'
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
-import { Label } from '../ui/label'
+import { RadioGroup, RadioGroupItem } from '../../ui/radio-group'
+import { Label } from '../../ui/label'
 
 export default function FilterCard() {
   const filterData = [

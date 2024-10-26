@@ -1,4 +1,4 @@
-import FilterCard from '@/components/jobs/FilterCard'
+import FilterCard from '@/components/client/jobs/FilterCard'
 import JobCard from '@/components/cards/JobCard'
 import Navbar from '@/components/shared/Navbar'
 import React from 'react'

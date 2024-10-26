@@ -4,7 +4,7 @@ import { Badge } from '../ui/badge'
 
 export default function AppliedJobTable() {
     return (
-        <div>
+        <div className='max-md:p-4'>
             <Table>
                 <TableCaption>A list or your applied jobs</TableCaption>
                 <TableHeader>

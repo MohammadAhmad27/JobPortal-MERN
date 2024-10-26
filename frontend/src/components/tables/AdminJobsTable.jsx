@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow, TableCell } from '../ui/table'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { Edit2, MoreHorizontal } from 'lucide-react'
+import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,7 +23,7 @@ export default function AdminJobsTable() {
 
     const navigate = useNavigate();
     return (
-        <>
+        <div className='max-md:p-4'>
             <Table>
                 <TableCaption>
                     A list of your recent posted jobs
@@ -53,13 +53,17 @@ export default function AdminJobsTable() {
                                                     <PopoverTrigger>
                                                         <MoreHorizontal />
                                                     </PopoverTrigger>
-                                                    <PopoverContent className='w-20 cursor-pointer'>
+                                                    <PopoverContent className='max-w-36 cursor-pointer space-y-1'>
                                                         <div
-                                                            variant='outline'
-                                                            onClick={() => navigate(`/admin/jobs/${job._id}`)}
-                                                            className='flex items-center w-fit gap-1'>
+                                                            className='flex items-center w-full gap-1'>
                                                             <Edit2 className='w-4' />
                                                             <span>Edit</span>
+                                                        </div>
+                                                        <div
+                                                            onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
+                                                            className='flex items-center w-full gap-1'>
+                                                            <Eye className='w-4' />
+                                                            <span>Applicants</span>
                                                         </div>
                                                     </PopoverContent>
                                                 </Popover>
@@ -75,6 +79,6 @@ export default function AdminJobsTable() {
 
                 </TableBody>
             </Table>
-        </>
+        </div>
     )
 }

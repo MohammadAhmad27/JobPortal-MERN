@@ -22,7 +22,7 @@ export default function CompaniesTable() {
 
     const navigate = useNavigate();
     return (
-        <>
+        <div className='max-md:p-4'>
             <Table>
                 <TableCaption>
                     A list of your recent registered companies
@@ -56,7 +56,7 @@ export default function CompaniesTable() {
                                                     <PopoverTrigger>
                                                         <MoreHorizontal />
                                                     </PopoverTrigger>
-                                                    <PopoverContent className='w-20 cursor-pointer'>
+                                                    <PopoverContent className='max-w-36 cursor-pointer'>
                                                         <div
                                                             variant='outline'
                                                             onClick={() => navigate(`/admin/companies/${company._id}`)}
@@ -78,6 +78,6 @@ export default function CompaniesTable() {
 
                 </TableBody>
             </Table>
-        </>
+        </div>
     )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -15,9 +15,10 @@ import { Loader2 } from 'lucide-react'
 
 
 export default function Signup() {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading } = useSelector(store => store.auth);
+    const { loading, user } = useSelector(store => store.auth);
     const [input, setInput] = useState({
         fullname: "",
         email: "",
@@ -32,6 +33,14 @@ export default function Signup() {
     const changeFileHandler = (e) => {
         setInput((input) => ({ ...input, file: e.target.files?.[0] }));
     };
+
+      // Check if the user is already logged in
+      useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();

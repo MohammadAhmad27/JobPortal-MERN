@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from '../ui/radio-group'
@@ -14,9 +14,10 @@ import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 
 export default function Login() {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading } = useSelector(store => store.auth);
+    const { loading, user } = useSelector(store => store.auth);
     const [input, setInput] = useState({
         email: "",
         password: "",
@@ -25,6 +26,14 @@ export default function Login() {
     const changeEventHandler = (e) => {
         setInput((input) => ({ ...input, [e.target.name]: e.target.value }));
     };
+
+    // Check if the user is already logged in
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

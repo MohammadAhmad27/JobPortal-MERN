@@ -13,8 +13,8 @@ export default function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user?.role === 'recruiter') {
-            navigate('/admin/companies');
+        if (user === null) {
+            navigate('/login');
         }
     }, [])
 

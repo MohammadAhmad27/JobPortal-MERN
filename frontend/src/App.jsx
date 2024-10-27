@@ -13,7 +13,8 @@ import CompanySetup from "./components/admin/companies/CompanySetup";
 import AdminJobs from "./pages/AdminJobs";
 import CreateJob from "./components/admin/jobs/CreateJob";
 import Applicants from "./components/admin/jobs/Applicants";
-import ProtectedRoute from "./components/admin/ProtectedRoute/ProtectedRoute";
+import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
+import ProtectedClientRoute from "./components/client/ProtectedClientRoute";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -21,13 +22,14 @@ function App() {
       path: "/",
       element: <Home />
     },
+    // For Client
     {
       path: "/jobs",
-      element: <Jobs />
+      element: <ProtectedClientRoute><Jobs /></ProtectedClientRoute>
     },
     {
       path: "/browse",
-      element: <Browse />
+      element: <ProtectedClientRoute><Browse /></ProtectedClientRoute>
     },
     {
       path: "/login",
@@ -39,36 +41,36 @@ function App() {
     },
     {
       path: "/profile",
-      element: <Profile />
+      element: <ProtectedClientRoute><Profile /></ProtectedClientRoute>
     },
     {
       path: "/jobs/description/:id",
-      element: <JobDescription />
+      element: <ProtectedClientRoute><JobDescription /></ProtectedClientRoute>
     },
     // For Admin
     {
       path: "/admin/companies",
-      element: <ProtectedRoute><Companies /></ProtectedRoute>
+      element: <ProtectedAdminRoute><Companies /></ProtectedAdminRoute>
     },
     {
       path: "/admin/companies/create",
-      element: <ProtectedRoute><CreateComapny /></ProtectedRoute>
+      element: <ProtectedAdminRoute><CreateComapny /></ProtectedAdminRoute>
     },
     {
       path: "/admin/companies/:id",
-      element: <ProtectedRoute><CompanySetup /></ProtectedRoute>
+      element: <ProtectedAdminRoute><CompanySetup /></ProtectedAdminRoute>
     },
     {
       path: "/admin/jobs",
-      element: <ProtectedRoute> <AdminJobs /></ProtectedRoute>
+      element: <ProtectedAdminRoute><AdminJobs /></ProtectedAdminRoute>
     },
     {
       path: "/admin/jobs/create",
-      element: <ProtectedRoute><CreateJob /></ProtectedRoute>
+      element: <ProtectedAdminRoute> <CreateJob /></ProtectedAdminRoute>
     },
     {
       path: "/admin/jobs/:id/applicants",
-      element: <ProtectedRoute><Applicants /></ProtectedRoute>
+      element: <ProtectedAdminRoute><Applicants /></ProtectedAdminRoute>
     }
   ]);
   return (

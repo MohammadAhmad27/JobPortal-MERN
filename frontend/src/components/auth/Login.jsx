@@ -26,8 +26,7 @@ export default function Login() {
     const changeEventHandler = (e) => {
         setInput((input) => ({ ...input, [e.target.name]: e.target.value }));
     };
-
-    // Check if the user is already logged in
+    
     useEffect(() => {
         if (user) {
             navigate("/");

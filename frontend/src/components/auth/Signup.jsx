@@ -33,8 +33,7 @@ export default function Signup() {
     const changeFileHandler = (e) => {
         setInput((input) => ({ ...input, file: e.target.files?.[0] }));
     };
-
-      // Check if the user is already logged in
+    
       useEffect(() => {
         if (user) {
             navigate("/");
